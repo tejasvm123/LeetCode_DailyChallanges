@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+        int maxpicked = 0;
+
+        for(int l = 0; l<fruits.size(); l++){
+            set<int> baskets;
+            int r = l;
+
+            while(r < fruits.size()){
+            if(baskets.find(fruits[r]) == baskets.end() && baskets.size() == 2){
+                break;
+            }
+            baskets.insert(fruits[r]);
+            r++;
+            }
+        maxpicked = max(maxpicked, r-l);
+        }
+        return maxpicked;
+    }
+};
