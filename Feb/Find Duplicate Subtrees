@@ -1,0 +1,40 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    unordered_map<string, pair<int, int>> mp;
+    int id = 1;
+    vector<TreeNode*> res;
+    vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
+        postOrder(root);
+        return res;
+    }
+
+    string postOrder(TreeNode* root){
+        if(root == NULL)
+            return "0";
+
+        string left = postOrder(root->left);
+        string right = postOrder(root->right);
+        string cur = left + ","+ to_string(root->val)+","+right;
+
+        if(mp.find(cur) == mp.end()){
+            mp[cur] = {id++, 1};
+        }
+        else{
+            ++mp[cur].second;
+            if(mp[cur].second == 2)
+            res.push_back(root);
+        }
+        return to_string(mp[cur].first);
+    }
+};
