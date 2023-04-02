@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int start = 0;
+        int end = nums.size()-1;
+
+        if(target > end){
+            return -1;
+        }
+        int mid = (start + end)/2;
+
+        if(nums[i] == target)
+            return mid;
+        
+        else if(nums[i] > key)
+            return search(nums, target, )
+
+    }
+};
+
+class Solution {
+  public:
+  int search(vector<int>& nums, int target) {
+    int pivot, left = 0, right = nums.size() - 1;
+    while (left <= right) {
+      pivot = left + (right - left) / 2;
+      if (nums[pivot] == target) return pivot;
+      if (target < nums[pivot]) right = pi
+
