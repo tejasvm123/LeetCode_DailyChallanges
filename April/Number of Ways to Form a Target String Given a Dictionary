@@ -1,0 +1,65 @@
+class Solution {
+public:
+    long long MOD = 1000000007;
+    int solve(vector<vector<int>>&freq, string& target, int colIdx, int targetIdx){
+        if (targetIdx == target.size()) 
+            return 1; 
+        if (colIdx == freq.size())
+            return 0;  
+
+        char targetCh = target[targetIdx];
+        int notPickWays = solve(freq, target, colIdx + 1, targetIdx);
+        int pickWays = 0;
+
+        if (freq[colIdx][targetCh - 'a'] != 0){
+            int currWays = freq[colIdx][targetCh - 'a'];
+            int nextWays = solve(freq, target, colIdx + 1, targetIdx + 1);
+            pickWays = (currWays * (long long)nextWays) % MOD;
+        }
+        return ((pickWays + (long long)notPickWays) % MOD);
+        
+    }
+    int numWays(vector<string>& words, string target) {
+        int m = words.size(), n = words[0].size();
+        vector<vector<int>>freq(n, vector<int>(26, 0));
+        
+        for (int i = 0; i < m; i++){
+            for (int j = 0; j < n; j++){
+                char ch = words[i][j];
+                freq[j][ch - 'a']++;
+            }
+        }
+        int ans = solve(freq, target, 0, 0);
+        return ans;
+    }
+};
+
+
+//2nd method
+class Solution {
+public:
+    int numWays(vector<string>& words, string target) {
+        const int alphabet = 26;
+        const int mod = 1000000007;
+        int m = target.size(), k = words[0].size();
+        vector cnt(alphabet, vector<int>(k));
+
+        for (int j = 0; j < k; j++) {
+            for (const string& word : words) {
+                cnt[word[j] - 'a'][j]++;
+            }
+        }
+        vector dp(m + 1, vector<long long>(k + 1));
+        dp[0][0] = 1;
+        
+        for (int i = 0; i <= m; i++) {
+            for (int j = 0; j < k; j++) {
+                if (i < m) {
+                    (dp[i + 1][j + 1] += cnt[target[i] - 'a'][j] * dp[i][j]) %= mod;
+                }
+                (dp[i][j + 1] += dp[i][j]) %= mod;
+            }
+        }
+        return dp[m][k];
+    }
+};
