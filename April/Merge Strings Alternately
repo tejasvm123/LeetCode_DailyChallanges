@@ -1,0 +1,42 @@
+class Solution {
+public:
+    string mergeAlternately(string word1, string word2) {
+        int x = word1.size();
+        int y = word2.size();
+
+        string str = "";
+        int i = 0, j = 0;
+        
+        for(int i=0; i < max(x, y); i++){
+            if(i < x){
+                str.push_back(word1[i]);
+            }
+            if(i < y){
+                str.push_back(word2[i]);
+            }
+        }
+        return str;
+    }
+};
+
+
+class Solution {
+public:
+    string mergeAlternately(string word1, string word2) {
+        int x = word1.size();
+        int y = word2.size();
+
+        string str = "";
+        int i=0, j=0;
+
+        while(i < x || j < y){
+            if(i < x){
+                str.push_back(word1[i++]);
+            }
+            if(j < y){
+                str.push_back(word2[j++]);
+            }
+        }
+        return str;
+    }
+};
