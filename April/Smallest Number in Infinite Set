@@ -1,0 +1,38 @@
+class SmallestInfiniteSet {
+    unordered_set<int> present;
+    priority_queue<int, vector<int>, greater<int>> addedInt;
+    int currInt;
+public:
+    SmallestInfiniteSet() {
+        currInt = 1;
+    }
+    
+    int popSmallest() {
+        int ans;
+        if(!addedInt.empty()){
+            ans = addedInt.top();
+            present.erase(ans);
+            addedInt.pop();
+        }
+        else{
+            ans = currInt;
+            currInt += 1;
+        }
+        return ans;
+    }
+    
+    void addBack(int num) {
+        if(currInt <= num || present.find(num) != present.end()){
+            return;
+        }
+        addedInt.push(num);
+        present.insert(num);
+    }
+};
+
+/**
+ * Your SmallestInfiniteSet object will be instantiated and called as such:
+ * SmallestInfiniteSet* obj = new SmallestInfiniteSet();
+ * int param_1 = obj->popSmallest();
+ * obj->addBack(num);
+ */
