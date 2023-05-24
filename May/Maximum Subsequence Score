@@ -1,0 +1,48 @@
+class Solution {
+public:
+    
+    static bool compare(pair<int, int>& a, pair<int, int>& b){
+        if(a.first == b.first){
+            return a.second > b.second;
+        }
+        else{
+            return a.first > b.first;
+        }
+    }
+    
+    long long maxScore(vector<int>& nums1, vector<int>& nums2, int k) {
+        
+        int n = nums1.size(); 
+        vector<pair<int, int>> arr(n);
+        
+        for(int i = 0; i < n; i++){
+            arr[i] = {nums2[i], nums1[i]};
+        }
+        
+        sort(arr.begin(), arr.end(), compare);
+        
+        priority_queue<int, vector<int>, greater<int>> pq;
+        
+        long long curr_sum = 0;
+        
+        long long maxi = 0;
+        
+        for(int i = 0; i < n; i++){
+            pq.push(arr[i].second);
+            curr_sum += arr[i].second;
+
+            if(pq.size() > k){
+                int top = pq.top();
+                pq.pop(); 
+                curr_sum -= top;
+            }
+
+            if(pq.size() == k){
+                long long temp_max = (curr_sum * arr[i].first);
+                maxi = max(maxi, temp_max);
+            }
+        }
+        
+        return maxi;
+    }
+};
