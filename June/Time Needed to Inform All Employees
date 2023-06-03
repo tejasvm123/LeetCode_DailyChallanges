@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& informTime) {
+        unordered_map<int, vector<int>> subordinates;
+ 
+        for (int i = 0; i < n; i++) {
+            if (manager[i] != -1) {
+                subordinates[manager[i]].push_back(i);
+            }
+        }
+        return calculateTime(headID, subordinates, informTime);
+    }
+    
+private:
+    int calculateTime(int employeeID, unordered_map<int, vector<int>>& subordinates, vector<int>& informTime) {
+        int maxTime = 0;
+
+        if (subordinates.find(employeeID) != subordinates.end()) {
+            for (int subordinate : subordinates[employeeID]) {
+                int time = calculateTime(subordinate, subordinates, informTime);
+                maxTime = max(maxTime, time);
+            }
+        }
+        return maxTime + informTime[employeeID];
+    }
+};
