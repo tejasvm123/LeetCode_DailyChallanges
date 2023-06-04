@@ -1,0 +1,28 @@
+class Solution {
+private:
+    void dfs(int city, const vector<vector<int>>& isConnected, vector<bool>& visited) {
+        visited[city] = true;
+
+        for (int connectedCity = 0; connectedCity < isConnected.size(); connectedCity++) {
+            if (isConnected[city][connectedCity] == 1 && !visited[connectedCity]) {
+                dfs(connectedCity, isConnected, visited);
+            }
+        }
+    }
+
+public:
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        int n = isConnected.size();
+        vector<bool> visited(n, false);
+        int numProvinces = 0;
+
+        for (int city = 0; city < n; city++) {
+            if (!visited[city]) {
+                numProvinces++;
+                dfs(city, isConnected, visited);
+            }
+        }
+
+        return numProvinces;
+    }
+};
